@@ -3,9 +3,8 @@ package json.chao.com.wanandroid.contract.hierarchy;
 import java.util.List;
 
 import json.chao.com.wanandroid.base.presenter.AbstractPresenter;
-import json.chao.com.wanandroid.core.bean.BaseResponse;
+import json.chao.com.wanandroid.base.view.AbstractView;
 import json.chao.com.wanandroid.core.bean.hierarchy.KnowledgeHierarchyData;
-import json.chao.com.wanandroid.base.view.BaseView;
 
 /**
  * @author quchao
@@ -14,19 +13,14 @@ import json.chao.com.wanandroid.base.view.BaseView;
 
 public interface KnowledgeHierarchyContract {
 
-    interface View extends BaseView {
+    interface View extends AbstractView {
 
         /**
          * Show Knowledge Hierarchy Data
          *
-         * @param knowledgeHierarchyResponse BaseResponse<List<KnowledgeHierarchyData>>
+         * @param knowledgeHierarchyDataList (List<KnowledgeHierarchyData>
          */
-        void showKnowledgeHierarchyData(BaseResponse<List<KnowledgeHierarchyData>> knowledgeHierarchyResponse);
-
-        /**
-         * Show knowledge hierarchy detail data fail
-         */
-        void showKnowledgeHierarchyDetailDataFail();
+        void showKnowledgeHierarchyData(List<KnowledgeHierarchyData> knowledgeHierarchyDataList);
 
     }
 
@@ -34,7 +28,9 @@ public interface KnowledgeHierarchyContract {
 
         /**
          * 知识列表
+         *
+         * @param isShowError If show error
          */
-        void getKnowledgeHierarchyData();
+        void getKnowledgeHierarchyData(boolean isShowError);
     }
 }

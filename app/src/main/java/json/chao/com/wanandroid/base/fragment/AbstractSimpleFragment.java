@@ -10,7 +10,7 @@ import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.disposables.CompositeDisposable;
+import json.chao.com.wanandroid.app.Constants;
 import json.chao.com.wanandroid.app.WanAndroidApp;
 import me.yokeyword.fragmentation.SupportFragment;
 import json.chao.com.wanandroid.R;
@@ -27,7 +27,6 @@ public abstract class AbstractSimpleFragment extends SupportFragment {
 
     private Unbinder unBinder;
     private long clickTime;
-    private CompositeDisposable mCompositeDisposable;
     public boolean isInnerFragment;
 
     @Nullable
@@ -35,24 +34,22 @@ public abstract class AbstractSimpleFragment extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         unBinder = ButterKnife.bind(this, view);
-        mCompositeDisposable = new CompositeDisposable();
-
+        initView();
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable.clear();
+        if (unBinder != null && unBinder != Unbinder.EMPTY) {
+            unBinder.unbind();
+            unBinder = null;
         }
-        unBinder.unbind();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //LeakCanary
         RefWatcher refWatcher = WanAndroidApp.getRefWatcher(_mActivity);
         refWatcher.watch(this);
     }
@@ -76,8 +73,7 @@ public abstract class AbstractSimpleFragment extends SupportFragment {
                 return true;
             }
             long currentTime = System.currentTimeMillis();
-            long time = 2000;
-            if ((currentTime - clickTime) > time) {
+            if ((currentTime - clickTime) > Constants.DOUBLE_INTERVAL_TIME) {
                 CommonUtils.showSnackMessage(_mActivity, getString(R.string.double_click_exit_tint));
                 clickTime = System.currentTimeMillis();
             } else {
@@ -85,6 +81,14 @@ public abstract class AbstractSimpleFragment extends SupportFragment {
             }
         }
         return true;
+    }
+
+    /**
+     * 有些初始化必须在onCreateView中，例如setAdapter,
+     * 否则，会弹出 No adapter attached; skipping layout
+     */
+    protected void initView() {
+
     }
 
     /**

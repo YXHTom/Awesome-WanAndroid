@@ -3,14 +3,17 @@ package json.chao.com.wanandroid.base.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.disposables.CompositeDisposable;
-
+import json.chao.com.wanandroid.app.WanAndroidApp;
 
 /**
  * Common simple dialog fragment
@@ -23,14 +26,12 @@ public abstract class AbstractSimpleDialogFragment extends DialogFragment {
 
     private Unbinder unBinder;
     public View mRootView;
-    private CompositeDisposable mCompositeDisposable;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayout(), container, false);
         unBinder = ButterKnife.bind(this, mRootView);
-        mCompositeDisposable = new CompositeDisposable();
         initEventAndData();
 
         return mRootView;
@@ -39,18 +40,28 @@ public abstract class AbstractSimpleDialogFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable.clear();
+        if (unBinder != null && unBinder != Unbinder.EMPTY) {
+            unBinder.unbind();
+            unBinder = null;
         }
-        unBinder.unbind();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //LeakCanary
-//        RefWatcher refWatcher = GeeksApp.getRefWatcher(getActivity());
-//        refWatcher.watch(this);
+        RefWatcher refWatcher = WanAndroidApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
+
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        try {
+            //防止连续点击add多个fragment
+            manager.beginTransaction().remove(this).commit();
+            super.show(manager, tag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -1,9 +1,8 @@
 package json.chao.com.wanandroid.contract.hierarchy;
 
 import json.chao.com.wanandroid.base.presenter.AbstractPresenter;
-import json.chao.com.wanandroid.core.bean.BaseResponse;
+import json.chao.com.wanandroid.base.view.AbstractView;
 import json.chao.com.wanandroid.core.bean.main.collect.FeedArticleData;
-import json.chao.com.wanandroid.base.view.BaseView;
 import json.chao.com.wanandroid.core.bean.main.collect.FeedArticleListData;
 
 /**
@@ -13,37 +12,32 @@ import json.chao.com.wanandroid.core.bean.main.collect.FeedArticleListData;
 
 public interface KnowledgeHierarchyListContract {
 
-    interface View extends BaseView {
+    interface View extends AbstractView {
 
         /**
          * Show Knowledge Hierarchy Detail Data
          *
-         * @param feedArticleListResponse BaseResponse<FeedArticleListData>
+         * @param feedArticleListData FeedArticleListData
          */
-        void showKnowledgeHierarchyDetailData(BaseResponse<FeedArticleListData> feedArticleListResponse);
+        void showKnowledgeHierarchyDetailData(FeedArticleListData feedArticleListData);
 
         /**
          * Show collect article data
          *
          * @param position Position
          * @param feedArticleData FeedArticleData
-         * @param feedArticleListResponse BaseResponse<FeedArticleListData>
+         * @param feedArticleListData FeedArticleListData
          */
-        void showCollectArticleData(int position, FeedArticleData feedArticleData, BaseResponse<FeedArticleListData> feedArticleListResponse);
+        void showCollectArticleData(int position, FeedArticleData feedArticleData, FeedArticleListData feedArticleListData);
 
         /**
          * Show cancel collect article data
          *
          * @param position Position
          * @param feedArticleData FeedArticleData
-         * @param feedArticleListResponse BaseResponse<FeedArticleListData>
+         * @param feedArticleListData FeedArticleListData
          */
-        void showCancelCollectArticleData(int position, FeedArticleData feedArticleData, BaseResponse<FeedArticleListData> feedArticleListResponse);
-
-        /**
-         * Show knowledge hierarchy detail data fail
-         */
-        void showKnowledgeHierarchyDetailDataFail();
+        void showCancelCollectArticleData(int position, FeedArticleData feedArticleData, FeedArticleListData feedArticleListData);
 
         /**
          * Show jump the top
@@ -64,8 +58,9 @@ public interface KnowledgeHierarchyListContract {
          *
          * @param page page num
          * @param cid second page id
+         * @param isShowError If show error
          */
-        void getKnowledgeHierarchyDetailData(int page, int cid);
+        void getKnowledgeHierarchyDetailData(int page, int cid, boolean isShowError);
 
         /**
          * Add collect article

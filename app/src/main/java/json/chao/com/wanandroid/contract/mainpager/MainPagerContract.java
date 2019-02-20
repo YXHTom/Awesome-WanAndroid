@@ -2,11 +2,10 @@ package json.chao.com.wanandroid.contract.mainpager;
 
 import java.util.List;
 
-import json.chao.com.wanandroid.core.bean.BaseResponse;
+import json.chao.com.wanandroid.base.view.AbstractView;
 import json.chao.com.wanandroid.core.bean.main.banner.BannerData;
 import json.chao.com.wanandroid.core.bean.main.collect.FeedArticleData;
 import json.chao.com.wanandroid.base.presenter.AbstractPresenter;
-import json.chao.com.wanandroid.base.view.BaseView;
 import json.chao.com.wanandroid.core.bean.main.collect.FeedArticleListData;
 
 /**
@@ -16,7 +15,7 @@ import json.chao.com.wanandroid.core.bean.main.collect.FeedArticleListData;
 
 public interface MainPagerContract {
 
-    interface View extends BaseView {
+    interface View extends AbstractView {
 
         /**
          * Show auto login success
@@ -31,45 +30,35 @@ public interface MainPagerContract {
         /**
          * Show content
          *
-         * @param feedArticleListResponse BaseResponse<FeedArticleListData>
+         * @param feedArticleListData FeedArticleListData
          * @param isRefresh If refresh
          */
-        void showArticleList(BaseResponse<FeedArticleListData> feedArticleListResponse, boolean isRefresh);
+        void showArticleList(FeedArticleListData feedArticleListData, boolean isRefresh);
 
         /**
          * Show collect article data
          *
          * @param position Position
          * @param feedArticleData FeedArticleData
-         * @param feedArticleListResponse BaseResponse<FeedArticleListData>
+         * @param feedArticleListData FeedArticleListData
          */
-        void showCollectArticleData(int position, FeedArticleData feedArticleData, BaseResponse<FeedArticleListData> feedArticleListResponse);
+        void showCollectArticleData(int position, FeedArticleData feedArticleData, FeedArticleListData feedArticleListData);
 
         /**
          * Show cancel collect article data
          *
          * @param position Position
          * @param feedArticleData FeedArticleData
-         * @param feedArticleListResponse BaseResponse<FeedArticleListData>
+         * @param feedArticleListData FeedArticleListData
          */
-        void showCancelCollectArticleData(int position, FeedArticleData feedArticleData, BaseResponse<FeedArticleListData> feedArticleListResponse);
+        void showCancelCollectArticleData(int position, FeedArticleData feedArticleData, FeedArticleListData feedArticleListData);
 
         /**
          * Show banner data
          *
-         * @param bannerResponse BaseResponse<List<BannerData>>
+         * @param bannerDataList List<BannerData>
          */
-        void showBannerData(BaseResponse<List<BannerData>> bannerResponse);
-
-        /**
-         * Show article list fail
-         */
-        void showArticleListFail();
-
-        /**
-         * Show banner data fail
-         */
-        void showBannerDataFail();
+        void showBannerData(List<BannerData> bannerDataList);
 
     }
 
@@ -89,8 +78,15 @@ public interface MainPagerContract {
 
         /**
          * Get feed article list
+         *
+         * @param isShowError If show error
          */
-        void getFeedArticleList();
+        void getFeedArticleList(boolean isShowError);
+
+        /**
+         * Load more data
+         */
+        void loadMoreData();
 
         /**
          * Add collect article
@@ -110,13 +106,17 @@ public interface MainPagerContract {
 
         /**
          * Get banner data
+         *
+         * @param isShowError If show error
          */
-        void getBannerData();
+        void getBannerData(boolean isShowError);
 
         /**
          * Auto refresh
+         *
+         * @param isShowError If show error
          */
-        void autoRefresh();
+        void autoRefresh(boolean isShowError);
 
         /**
          * Load more

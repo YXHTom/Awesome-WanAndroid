@@ -3,10 +3,8 @@ package json.chao.com.wanandroid.contract.main;
 import java.util.List;
 
 import json.chao.com.wanandroid.base.presenter.AbstractPresenter;
-import json.chao.com.wanandroid.core.bean.BaseResponse;
 import json.chao.com.wanandroid.core.bean.main.search.TopSearchData;
-import json.chao.com.wanandroid.core.bean.main.search.UsefulSiteData;
-import json.chao.com.wanandroid.base.view.BaseView;
+import json.chao.com.wanandroid.base.view.AbstractView;
 import json.chao.com.wanandroid.core.dao.HistoryData;
 
 /**
@@ -16,7 +14,7 @@ import json.chao.com.wanandroid.core.dao.HistoryData;
 
 public interface SearchContract {
 
-    interface View extends BaseView {
+    interface View extends AbstractView {
 
         /**
          * Show history data
@@ -28,14 +26,9 @@ public interface SearchContract {
         /**
          * Show top search data
          *
-         * @param topSearchDataResponse BaseResponse<List<TopSearchData>>
+         * @param topSearchDataList List<TopSearchData>
          */
-        void showTopSearchData(BaseResponse<List<TopSearchData>> topSearchDataResponse);
-
-        /**
-         * Show top search data fail
-         */
-        void showTopSearchDataFail();
+        void showTopSearchData(List<TopSearchData> topSearchDataList);
 
         /**
          * Judge to the search list activity

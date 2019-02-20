@@ -1,9 +1,8 @@
 package json.chao.com.wanandroid.contract.main;
 
 import json.chao.com.wanandroid.base.presenter.AbstractPresenter;
-import json.chao.com.wanandroid.core.bean.BaseResponse;
 import json.chao.com.wanandroid.core.bean.main.login.LoginData;
-import json.chao.com.wanandroid.base.view.BaseView;
+import json.chao.com.wanandroid.base.view.AbstractView;
 
 /**
  * @author quchao
@@ -12,53 +11,16 @@ import json.chao.com.wanandroid.base.view.BaseView;
 
 public interface LoginContract {
 
-    interface View extends BaseView {
+    interface View extends AbstractView {
 
         /**
          * Show login data
          *
-         * @param loginResponse BaseResponse<LoginData>
          */
-        void showLoginData(BaseResponse<LoginData> loginResponse);
-
-        /**
-         * Show register data
-         *
-         * @param loginResponse BaseResponse<LoginData>
-         */
-        void showRegisterData(BaseResponse<LoginData> loginResponse);
-
-        /**
-         * Show login fail
-         *
-         * @param errorMsg error message
-         */
-        void showLoginFail(String errorMsg);
-
-        /**
-         * Show register fail
-         *
-         * @param errorMsg error message
-         */
-        void showRegisterFail(String errorMsg);
-
+        void showLoginSuccess();
     }
 
     interface Presenter extends AbstractPresenter<View> {
-
-        /**
-         * Set login status
-         *
-         * @param account account
-         */
-        void setLoginAccount(String account);
-
-        /**
-         * Set login password
-         *
-         * @param password password
-         */
-        void setLoginPassword(String password);
 
         /**
          * Get Login data
@@ -67,15 +29,5 @@ public interface LoginContract {
          * @param password password
          */
         void getLoginData(String username, String password);
-
-        /**
-         * 注册
-         * http://www.wanandroid.com/user/register
-         *
-         * @param username user name
-         * @param password password
-         * @param rePassword re password
-         */
-        void getRegisterData(String username, String password, String rePassword);
     }
 }
